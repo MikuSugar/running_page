@@ -134,7 +134,8 @@ def parse_raw_data_to_nametuple(
         for p in run_points_data_gpx:
             if "unixTimestamp" in p:  # 确保 key 存在，避免 KeyError
                 p["timestamp"] = p["unixTimestamp"]  # 复制值
-
+            else:
+                print(f"Keys in p: {list(p.keys())}")
             p_hr = find_nearest_hr(decoded_hr_data, int(p["timestamp"]), start_time)
             if p_hr:
                 p["hr"] = p_hr

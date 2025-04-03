@@ -16,6 +16,7 @@ from Crypto.Cipher import AES
 from generator import Generator
 from utils import adjust_time
 import xml.etree.ElementTree as ET
+import traceback
 
 KEEP_SPORT_TYPES = ["running", "hiking", "cycling"]
 KEEP2STRAVA = {
@@ -202,6 +203,7 @@ def get_all_keep_tracks(
                 tracks.append(track)
             except Exception as e:
                 print(f"Something wrong paring keep id {run}" + str(e))
+                traceback.print_exc()
     return tracks
 
 

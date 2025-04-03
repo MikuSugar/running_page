@@ -131,7 +131,7 @@ def parse_raw_data_to_nametuple(
                 p["longitude"] = run_points_data[i][1]
 
         for p in run_points_data_gpx:
-            p_hr = find_nearest_hr(decoded_hr_data, int(p["timestamp"]), start_time)
+            p_hr = find_nearest_hr(decoded_hr_data, int(p["unixTimestamp"]), start_time)
             if p_hr:
                 p["hr"] = p_hr
         if with_download_gpx:

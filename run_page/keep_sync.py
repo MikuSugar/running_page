@@ -136,6 +136,7 @@ def parse_raw_data_to_nametuple(
                 p["timestamp"] = p["unixTimestamp"]  # 复制值
             else:
                 print(f"Keys in p: {list(p.keys())}")
+                p["timestamp"] = []
             p_hr = find_nearest_hr(decoded_hr_data, int(p["timestamp"]), start_time)
             if p_hr:
                 p["hr"] = p_hr

@@ -192,7 +192,7 @@ class Poster:
             )
         )
 
-        d.add(d.rect((65, self.height - 17), (2.6, 2.6), fill=self.colors["special"]))
+        d.add(d.rect((65, self.height - 17), (2.6, 2.6), fill="#ff9800"))
 
         d.add(
             d.text(

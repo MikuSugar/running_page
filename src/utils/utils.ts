@@ -6,6 +6,7 @@ import worldGeoJson from '@surbowl/world-geo-json-zh/world.zh.json';
 import { chinaCities } from '@/static/city';
 import { MAIN_COLOR, MUNICIPALITY_CITIES_ARR, NEED_FIX_MAP, RUN_TITLES } from './const';
 import { FeatureCollection, LineString } from 'geojson';
+import excludedRunIdsConfig from '../../excluded_run_ids.json';
 
 export type Coordinate = [number, number];
 
@@ -193,23 +194,29 @@ const pathForRun = (run: Activity): Coordinate[] => {
   }
 };
 
-const geoJsonForRuns = (runs: Activity[]): FeatureCollection<LineString> => ({
-  type: 'FeatureCollection',
-  features: runs.map((run) => {
-    const points = pathForRun(run);
+const geoJsonForRuns = (runs: Activity[]): FeatureCollection<LineString> => {
+  // 过滤掉异常轨迹的跑步记录
+  const excludedIds = new Set(excludedRunIdsConfig.excludedRunIds);
+  const filteredRuns = runs.filter(run => !excludedIds.has(run.run_id));
 
-    return {
-      type: 'Feature',
-      properties: {
-        color: MAIN_COLOR,
-      },
-      geometry: {
-        type: 'LineString',
-        coordinates: points,
-      },
-    };
-  }),
-});
+  return {
+    type: 'FeatureCollection',
+    features: filteredRuns.map((run) => {
+      const points = pathForRun(run);
+
+      return {
+        type: 'Feature',
+        properties: {
+          color: MAIN_COLOR,
+        },
+        geometry: {
+          type: 'LineString',
+          coordinates: points,
+        },
+      };
+    }),
+  };
+};
 
 const geoJsonForMap = (): FeatureCollection<RPGeometry> => ({
   type: 'FeatureCollection',
